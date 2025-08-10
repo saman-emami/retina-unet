@@ -14,7 +14,7 @@ class Config:
     random_state: int = 42
 
     # Image
-    image_size: tuple = (565, 585)
+    image_size: tuple = (512, 512)
 
     # Model
     in_channels: int = 3

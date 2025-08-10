@@ -108,7 +108,7 @@ class UNetTrainer:
             val_loss, val_dice = self.validate_epoch()
 
             # Update learning rate
-            self.scheduler.step(val_loss)
+            self.scheduler.step(val_dice)
 
             # Track metrics
             self.train_losses.append(train_loss)
@@ -118,7 +118,7 @@ class UNetTrainer:
 
             print(
                 f"Epoch {epoch+1}/{num_epochs} - "
-                f"Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, Val Dice: {val_dice:.4f}"
+                f"Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, Val Dice: {val_dice:.4f}, "
                 f"Time: {epoch_time:.2f}s\n"
             )
 
