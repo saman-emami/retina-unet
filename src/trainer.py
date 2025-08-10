@@ -41,6 +41,7 @@ class UNetTrainer:
         # Training history
         self.train_losses = []
         self.val_losses = []
+        self.val_dices = []
         self.best_val_loss = float("inf")
 
     def dice_loss(self, pred, target, smooth=Config.smooth):
@@ -74,14 +75,14 @@ class UNetTrainer:
 
         return total_loss / num_batches
 
-    def validate_epoch(self) -> Tuple[float, float]:
+    def validate(self, data_loader: DataLoader) -> Tuple[float, float]:
         self.model.eval()
         total_loss = 0.0
         total_dice = 0.0
-        num_batches = len(self.val_loader)
+        num_batches = len(data_loader)
 
         with torch.no_grad():
-            for images, masks in self.val_loader:
+            for images, masks in data_loader:
 
                 images, masks = images.to(self.device), masks.to(self.device)
                 outputs = self.model(images)
@@ -105,7 +106,7 @@ class UNetTrainer:
             train_loss = self.train_epoch()
 
             # Validation phase
-            val_loss, val_dice = self.validate_epoch()
+            val_loss, val_dice = self.validate(self.val_loader)
 
             # Update learning rate
             self.scheduler.step(val_dice)
@@ -113,6 +114,7 @@ class UNetTrainer:
             # Track metrics
             self.train_losses.append(train_loss)
             self.val_losses.append(val_loss)
+            self.val_dices.append(val_dice)
 
             epoch_time = time.time() - start_time
 
@@ -129,4 +131,8 @@ class UNetTrainer:
 
         self.model.load_state_dict(torch.load("best_model.pth"))
 
-        return {"train_losses": self.train_losses, "val_losses": self.val_losses}
+        return {
+            "train_losses": self.train_losses,
+            "val_losses": self.val_losses,
+            "val_dices": self.val_dices,
+        }
