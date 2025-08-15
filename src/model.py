@@ -60,38 +60,45 @@ class UpSample(nn.Module):
 
 
 class UNet(nn.Module):
-    def __init__(self, in_channels=Config.in_channels, num_classes=Config.num_classes):
+    def __init__(
+        self,
+        in_channels=Config.in_channels,
+        num_classes=Config.num_classes,
+        layers=Config.layers,
+    ):
         super().__init__()
 
-        # Encoder path
-        self.input_conv = DoubleConv(in_channels, 64)
-        self.down1 = DownSample(64, 128)
-        self.down2 = DownSample(128, 256)
-        self.down3 = DownSample(256, 512)
-        self.down4 = DownSample(512, 1024)
+        # Input layer
+        self.input_conv = DoubleConv(in_channels, layers[0])
 
-        # Decoder path
-        self.up1 = UpSample(1024, 512)
-        self.up2 = UpSample(512, 256)
-        self.up3 = UpSample(256, 128)
-        self.up4 = UpSample(128, 64)
+        self.encoder_path = [
+            DownSample(*channels) for channels in zip(layers[:-1], layers[1:])
+        ]
+
+        reversed_layers = layers[::-1]
+
+        self.decoder_path = [
+            UpSample(*channels)
+            for channels in zip(reversed_layers[:-1], reversed_layers[1:])
+        ]
 
         # Output layer
-        self.output_conv = nn.Conv2d(64, num_classes, kernel_size=1)
+        self.output_conv = nn.Conv2d(layers[0], num_classes, kernel_size=1)
 
     def forward(self, x):
-        # Encoder
         x1 = self.input_conv(x)
-        x2 = self.down1(x1)
-        x3 = self.down2(x2)
-        x4 = self.down3(x3)
-        x5 = self.down3(x4)
+
+        # Encoder
+        encodings = [x1]
+        for i, down_sample in enumerate(self.encoder_path):
+            encodings[i + 1] = down_sample(encodings[i])
+
+        reversed_encodings = encodings[::-1]
 
         # Decoder with skip connections
-        x = self.up1(x5, x4)
-        x = self.up2(x, x3)
-        x = self.up3(x, x2)
-        x = self.up3(x, x1)
+        x = reversed_encodings[0]
+        for i, up_sample in enumerate(self.decoder_path):
+            x = up_sample(x, reversed_encodings[i + 1])
 
         # Output segmentation map
         output = self.output_conv(x)

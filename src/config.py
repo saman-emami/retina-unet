@@ -1,5 +1,6 @@
 import torch
 from dataclasses import dataclass
+from typing import List
 
 
 @dataclass
@@ -17,6 +18,7 @@ class Config:
     image_size: tuple = (512, 512)
 
     # Model
+    layers: List[int] = [64, 128, 256, 512, 1024]
     in_channels: int = 3
     num_classes: int = 1
 
