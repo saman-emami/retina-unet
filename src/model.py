@@ -68,11 +68,13 @@ class UNet(nn.Module):
         self.down1 = DownSample(64, 128)
         self.down2 = DownSample(128, 256)
         self.down3 = DownSample(256, 512)
+        self.down4 = DownSample(512, 1024)
 
         # Decoder path
-        self.up1 = UpSample(512, 256)
-        self.up2 = UpSample(256, 128)
-        self.up3 = UpSample(128, 64)
+        self.up1 = UpSample(1024, 512)
+        self.up2 = UpSample(512, 256)
+        self.up3 = UpSample(256, 128)
+        self.up4 = UpSample(128, 64)
 
         # Output layer
         self.output_conv = nn.Conv2d(64, num_classes, kernel_size=1)
@@ -83,10 +85,12 @@ class UNet(nn.Module):
         x2 = self.down1(x1)
         x3 = self.down2(x2)
         x4 = self.down3(x3)
+        x5 = self.down3(x4)
 
         # Decoder with skip connections
-        x = self.up1(x4, x3)
-        x = self.up2(x, x2)
+        x = self.up1(x5, x4)
+        x = self.up2(x, x3)
+        x = self.up3(x, x2)
         x = self.up3(x, x1)
 
         # Output segmentation map

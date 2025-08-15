@@ -10,7 +10,7 @@ class Config:
     lr: float = 1e-4
     weight_decay: float = 1e-4
     smooth: float = 1e-6
-    dropout: float = 0.1
+    dropout: float = 0.2
     random_state: int = 42
 
     # Image
