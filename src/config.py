@@ -5,7 +5,7 @@ from dataclasses import dataclass
 @dataclass
 class Config:
     # Training
-    num_epochs: int = 100
+    num_epochs: int = 500
     batch_size: int = 4
     lr: float = 1e-4
     weight_decay: float = 1e-4
