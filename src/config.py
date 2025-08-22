@@ -1,6 +1,5 @@
 import torch
 from dataclasses import dataclass
-from typing import Sequence
 
 
 @dataclass
@@ -18,7 +17,6 @@ class Config:
     image_size: tuple = (512, 512)
 
     # Model
-    layers: Sequence[int] = [64, 128, 256, 512, 1024]
     in_channels: int = 3
     num_classes: int = 1
 
