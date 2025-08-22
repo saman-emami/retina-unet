@@ -35,7 +35,7 @@ class UNetTrainer:
             self.optimizer,
             mode="max",
             patience=5,
-            factor=0.8,
+            factor=0.99,
         )
 
         # Training history
