@@ -10,14 +10,13 @@ class Config:
     lr: float = 1e-4
     weight_decay: float = 1e-4
     smooth: float = 1e-6
-    dropout: float = 0.2
+    dropout: float = 0.3
     random_state: int = 42
 
     # Image
     image_size: tuple = (512, 512)
 
     # Model
-    kernel_size: int = 5
     in_channels: int = 3
     num_classes: int = 1
 
