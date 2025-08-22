@@ -5,14 +5,20 @@ from .config import Config
 
 
 class DoubleConv(nn.Module):
-    def __init__(self, in_channels, out_channels, dropout=Config.dropout):
+    def __init__(
+        self,
+        in_channels,
+        out_channels,
+        dropout=Config.dropout,
+        kernel_size=Config.kernel_size,
+    ):
         super().__init__()
         self.conv = nn.Sequential(
-            nn.Conv2d(in_channels, out_channels, 3, padding=1),
+            nn.Conv2d(in_channels, out_channels, kernel_size, padding=1),
             nn.BatchNorm2d(out_channels),
             nn.ReLU(inplace=True),
             nn.Dropout2d(dropout),
-            nn.Conv2d(out_channels, out_channels, 3, padding=1),
+            nn.Conv2d(out_channels, out_channels, kernel_size, padding=1),
             nn.BatchNorm2d(out_channels),
             nn.ReLU(inplace=True),
             nn.Dropout2d(dropout),

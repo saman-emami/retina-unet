@@ -17,6 +17,7 @@ class Config:
     image_size: tuple = (512, 512)
 
     # Model
+    kernel_size: int = 5
     in_channels: int = 3
     num_classes: int = 1
 
