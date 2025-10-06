@@ -25,8 +25,9 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-4. **Run the train.ipynb notebook**
+4. **Train the model**
 
+Run the train.ipynb notebook
 
 5. **Model outputs:**
 
