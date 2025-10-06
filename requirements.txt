@@ -5,3 +5,5 @@ opencv-python
 albumentations
 tqdm
 matplotlib
+kagglehub
+scikit-learn
