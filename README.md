@@ -1,7 +1,7 @@
 
 # Retinal Vessel Segmentation with PyTorch U-Net
 
-This project implements a U-Net-based neural network in PyTorch for the segmentation of retinal blood vessels from medical images. It is designed for accuracy and robustness using best deep learning practices and supports automated dataset handling.
+This project implements a U-Net-based neural network in PyTorch for the segmentation of retinal blood vessels from medical images. It is designed for accuracy and robustness using best deep learning practices.
 
 ![Model Output](https://github.com/user-attachments/assets/5ae5874c-9477-45e8-8245-a74a3bd33e10)
 
