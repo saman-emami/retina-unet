@@ -27,7 +27,7 @@ pip install -r requirements.txt
 
 4. **Train the model**
 
-    * Run the train.ipynb notebook
+    - Run the train.ipynb notebook
 
 5. **Model outputs:**
 
